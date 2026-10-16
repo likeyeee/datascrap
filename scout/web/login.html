@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>登录 · 线索雷达</title>
+<link rel="stylesheet" href="/static/base.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Crect width=%2724%27 height=%2724%27 rx=%276%27 fill=%27%233370ff%27/%3E%3Ccircle cx=%2712%27 cy=%2712%27 r=%277%27 fill=%27none%27 stroke=%27white%27 stroke-width=%272%27/%3E%3Ccircle cx=%2712%27 cy=%2712%27 r=%273%27 fill=%27none%27 stroke=%27white%27 stroke-width=%272%27/%3E%3C/svg%3E">
+</head>
+<body>
+<div class="auth">
+  <div class="auth-box">
+    <div class="row" style="gap:10px"><span class="logo" style="width:28px;height:28px">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></svg></span>
+      <span style="font-size:16px;font-weight:600">线索雷达</span></div>
+    <h1 id="title" style="font-size:20px;line-height:28px;margin-top:24px">登录</h1>
+    <p class="t3" id="subtitle" style="margin-top:4px">使用管理员分配的账号</p>
+    <form id="form" autocomplete="on">
+      <div id="setup" class="col hidden" style="gap:16px">
+        <div class="notice">系统还没有账号。输入服务器 <code>.env</code> 中的 <code>API_TOKEN</code>，创建第一个管理员。</div>
+        <label class="field">系统令牌<input class="input" name="system_token" type="password" autocomplete="off"></label>
+        <label class="field">你的名字<input class="input" name="display_name" placeholder="显示给同事看的名称"></label>
+      </div>
+      <label class="field">用户名<input class="input" name="username" autocomplete="username" required></label>
+      <label class="field">密码<input class="input" name="password" type="password" autocomplete="current-password" required></label>
+      <div id="err" class="sm hidden" style="color:var(--danger)"></div>
+      <button class="btn pri" id="submit" type="submit">登录</button>
+    </form>
+  </div>
+  <div class="auth-foot">忘记密码请联系管理员重置</div>
+</div>
+<script type="module">
+import {api, initTheme} from '/static/ui.js';
+initTheme();
+const form = document.getElementById('form');
+const next = new URLSearchParams(location.search).get('next');
+let setup = false;
+const target = u => next && next.startsWith('/') && !next.startsWith('//') ? next : (u.role === 'admin' ? '/admin' : '/app');
+
+const st = await api('/api/auth/state');
+if (st.user) location.replace(target(st.user));
+if (st.needs_setup) {
+  setup = true;
+  document.getElementById('title').textContent = '创建管理员';
+  document.getElementById('subtitle').textContent = '首次使用，先创建一个管理员账号';
+  document.getElementById('setup').classList.remove('hidden');
+  form.password.autocomplete = 'new-password';
+  form.password.minLength = 8;
+  form.password.placeholder = '至少 8 位';
+  document.getElementById('submit').textContent = '创建并登录';
+}
+form.onsubmit = async e => {
+  e.preventDefault();
+  const err = document.getElementById('err'), btn = document.getElementById('submit');
+  err.classList.add('hidden');
+  btn.disabled = true;
+  try {
+    const body = {username: form.username.value, password: form.password.value};
+    const r = setup
+      ? await api('/api/auth/setup', {method: 'POST', body: {...body, system_token: form.system_token.value, display_name: form.display_name.value}})
+      : await api('/api/auth/login', {method: 'POST', body});
+    location.replace(target(r.user));
+  } catch (ex) {
+    err.textContent = ex.message;
+    err.classList.remove('hidden');
+    btn.disabled = false;
+  }
+};
+</script>
+</body>
+</html>

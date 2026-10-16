@@ -1,0 +1,43 @@
+# 全局运行配置。所有项都可以用环境变量覆盖，见 .env.example
+
+database_url: "sqlite:///data/scout.db"   # Docker 中由 DATABASE_URL 覆盖为 Postgres
+
+crawler:
+  user_agent: "Mozilla/5.0 (compatible; StoreScoutBot/1.0; +https://example.com/bot)"
+  timeout: 20               # 单请求超时（秒）
+  concurrency: 8            # 同时采集的站点数
+  per_domain_delay: 1.5     # 同一站点两次请求的间隔（秒）
+  shopify_delay: 1.0        # Shopify 按 IP 对所有店铺统一限流，所有 Shopify 店共用这个间隔
+  max_pages_per_store: 6    # 每个站点最多抓几个页面（首页之外）
+  respect_robots: true
+  target_countries: ["US"]  # 只对这些国家的店铺做完整采集和打分
+  recrawl_days: 30          # 多少天后重新采集
+  max_fail_count: 3         # 连续失败几次后放弃
+  dns_lookup: true          # 查询 NS 记录
+  rdap_lookup: true         # 查询域名注册信息
+
+llm:
+  provider: deepseek
+  base_url: "https://api.deepseek.com"
+  model: "deepseek-flash"          # 批量初筛
+  review_model: "deepseek-v4-pro"  # 高分站点复核，留空则不复核
+  review_threshold: 70             # 初筛总分 >= 该值时用 review_model 复核
+  thinking: false                  # 初筛关闭思考模式以降低成本
+  temperature: 0.2
+  max_tokens: 2000
+  concurrency: 4
+  max_input_chars: 9000            # 喂给模型的页面文本上限
+
+scheduler:
+  crawl_batch: 20           # 每轮从队列取多少个站点
+  score_batch: 10
+  idle_sleep: 30            # 队列为空时休眠（秒）
+  # 各发现渠道运行间隔（分钟）；enabled: false 表示关闭
+  sources:
+    commoncrawl: { enabled: true, interval: 360, pages_per_run: 3 }
+    crtsh:       { enabled: true, interval: 720 }
+    outlinks:    { enabled: true, interval: 60, batch: 200 }
+    search:      { enabled: false, interval: 120, queries_per_run: 5, delay: 30 }
+
+api:
+  token: "change-me"        # 看板和浏览器插件使用的访问令牌，用 API_TOKEN 覆盖

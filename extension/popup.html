@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+:root{--ink:#111827;--ink2:#4b5563;--ink3:#8a919c;--line:#e6e8ec;--bg:#fff;--soft:#f6f7f9;--accent:#3370ff;--accent-soft:#e1eaff}
+@media (prefers-color-scheme:dark){:root{--ink:#eef0f3;--ink2:#b4bac4;--ink3:#7d8591;--line:#2a2f38;--bg:#171a20;--soft:#1c2027;--accent:#3987e5;--accent-soft:#1b2a3f}}
+body{width:340px;margin:0;font:13px/1.5 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--bg)}
+header{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.mark{width:26px;height:26px;border-radius:8px;background:#3370ff;color:#fff;display:grid;place-items:center;font-weight:700}
+header b{flex:1}
+.muted{color:var(--ink3);font-size:12px}
+main{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.box{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--soft)}
+.site{display:flex;gap:10px;align-items:flex-start}
+.grade{width:34px;height:34px;border-radius:9px;color:#fff;font-weight:700;font-size:16px;display:grid;place-items:center;flex:none;background:#9ca3af}
+button{width:100%;height:34px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);cursor:pointer;font:500 13px inherit;font-family:inherit}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button:disabled{opacity:.5;cursor:default}
+.toggles label{display:flex;align-items:center;justify-content:space-between;padding:5px 0;color:var(--ink2)}
+#msg{font-size:12px;min-height:18px;color:var(--ink2)}
+.stats{display:flex;gap:16px}.stats b{font-size:16px;display:block}
+footer{display:flex;justify-content:space-between;padding:10px 14px;border-top:1px solid var(--line)}
+a{color:var(--accent);text-decoration:none;font-size:12px}
+.badge{display:inline-block;padding:0 6px;border-radius:5px;background:var(--accent-soft);color:var(--accent);font-size:11.5px}
+</style>
+</head>
+<body>
+<header><div class="mark"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/></svg></div><b>独立站线索采集</b><span class="muted" id="who"></span></header>
+<main>
+  <div class="box" id="site"><span class="muted">识别中…</span></div>
+  <button class="primary" id="add">把当前站点加入采集队列</button>
+  <button id="extract">提取本页所有站点链接</button>
+  <div id="msg"></div>
+  <div class="box toggles">
+    <label>浏览到独立站时自动加入队列<input type="checkbox" data-k="autoReport"></label>
+    <label>搜索结果 / 广告库自动提取<input type="checkbox" data-k="autoExtract"></label>
+    <label>在链接旁显示线索评级<input type="checkbox" data-k="annotate"></label>
+  </div>
+  <div class="stats"><div><b id="s-sub">0</b><span class="muted">本次已提交</span></div><div><b id="s-add">0</b><span class="muted">新入库</span></div></div>
+</main>
+<footer><a href="options.html" target="_blank">设置</a><a href="#" id="dash">打开线索工作台 →</a></footer>
+<script src="popup.js"></script>
+</body>
+</html>

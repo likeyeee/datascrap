@@ -1,0 +1,8 @@
+.venv
+data
+tests
+.claude
+**/__pycache__
+.env
+*.xlsx
+*.csv

@@ -1,0 +1,112 @@
+# 搜索渠道使用的关键词。query = 模板中 {category} 与 {footprint} 的组合。
+# 搜索渠道默认关闭（见 settings.yaml），建议优先用浏览器插件在搜索结果页一键提取。
+
+categories:
+  - "home organization"
+  - "kitchen gadgets"
+  - "pet supplies"
+  - "outdoor gear"
+  - "car accessories"
+  - "phone accessories"
+  - "beauty tools"
+  - "women's clothing"
+  - "jewelry"
+  - "toys"
+
+footprints:
+  - '"powered by shopify"'
+  - '"City of Industry, CA"'
+  - '"Ontario, CA 91761"'
+  - '"Walnut, CA"'
+  - '"Flushing, NY"'
+  - '"Edison, NJ"'
+  - '"shipping" "7-15 business days"'
+  - '"shoplazza"'
+  - '"shopline"'
+
+templates:
+  - '{category} store {footprint}'
+  - '{category} {footprint} "contact us"'
+
+# 这些域名永远不作为候选（平台、社媒、大型零售商等）
+domain_blacklist:
+  - amazon.com
+  - ebay.com
+  - etsy.com
+  - walmart.com
+  - target.com
+  - aliexpress.com
+  - alibaba.com
+  - temu.com
+  - shein.com
+  - facebook.com
+  - instagram.com
+  - tiktok.com
+  - youtube.com
+  - pinterest.com
+  - twitter.com
+  - x.com
+  - linkedin.com
+  - reddit.com
+  - google.com
+  - bing.com
+  - duckduckgo.com
+  - wikipedia.org
+  - apple.com
+  - shopify.com
+  - shopifycdn.com
+  - shopifyapps.com
+  - shop.app
+  - myshopify.com
+  - shoplazza.com
+  - shopline.com
+  - wix.com
+  - squarespace.com
+  - wordpress.com
+  - wordpress.org
+  - woocommerce.com
+  - bigcommerce.com
+  - paypal.com
+  - klarna.com
+  - afterpay.com
+  - trustpilot.com
+  - yelp.com
+  - bbb.org
+  - judge.me
+  - yotpo.com
+  - klaviyo.com
+  - medium.com
+  - github.com
+  - cloudflare.com
+  - gstatic.com
+  - googleapis.com
+  - googletagmanager.com
+  - doubleclick.net
+  - apps.apple.com
+  - play.google.com
+  - whatsapp.com
+  - wa.me
+  - t.me
+  - snapchat.com
+  - threads.net
+  - forbes.com
+  - nytimes.com
+  - cnn.com
+  - usps.com
+  - ups.com
+  - fedex.com
+  - dhl.com
+  - 17track.net
+  - microsoft.com
+  - aka.ms
+  - msn.com
+  - live.com
+  - yellowpages.com
+  - mapquest.com
+  - tripadvisor.com
+  - indeed.com
+  - glassdoor.com
+  - crunchbase.com
+  - zoominfo.com
+  - vons.com
+  - storelocatortool.com

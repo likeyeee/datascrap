@@ -1,0 +1,34 @@
+# 打分维度与权重。LLM 对每个维度给 0-100 分，程序按权重加权得到总分。
+# 权重之和不必为 1，程序会自动归一化。
+
+dimensions:
+  warehouse_fit:
+    label: "海外仓契合"
+    weight: 0.25
+    desc: "海外仓需求契合度：从中国发货、时效长、物流痛点明显、SKU 适合海外仓备货则高分"
+  product_fit:
+    label: "选品契合"
+    weight: 0.20
+    desc: "选品上架契合度：在售品类与我方产品相同或互补、站点愿意扩充品类则高分"
+  chinese_affinity:
+    label: "华人关联"
+    weight: 0.20
+    desc: "华人关联度：在美华人最高，国内跨境卖家次之，非华人低分"
+  scale:
+    label: "体量"
+    weight: 0.15
+    desc: "体量：SKU 数量、价格带、广告投放、社媒规模；中小卖家最佳，超大品牌或空壳站低分"
+  activity:
+    label: "活跃度"
+    weight: 0.10
+    desc: "活跃度：近期上新、商品更新时间、站点是否正常运营"
+  reachability:
+    label: "可触达"
+    weight: 0.10
+    desc: "可触达性：是否有公开的商务邮箱、电话、社媒、联系表单"
+
+grades:        # 总分 >= 阈值即为该等级，从上往下匹配
+  A: 75
+  B: 60
+  C: 40
+  D: 0

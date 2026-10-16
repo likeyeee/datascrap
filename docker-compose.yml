@@ -1,0 +1,45 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: scout
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-scout}
+      POSTGRES_DB: scout
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scout"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: .
+    restart: unless-stopped
+    command: ["python", "-m", "scout", "serve", "--host", "0.0.0.0", "--port", "8000"]
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://scout:${POSTGRES_PASSWORD:-scout}@db:5432/scout
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./config:/app/config:ro      # 修改配置后 docker compose restart 即可生效
+    depends_on:
+      db:
+        condition: service_healthy
+
+  worker:
+    build: .
+    restart: unless-stopped
+    command: ["python", "-m", "scout", "run"]
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://scout:${POSTGRES_PASSWORD:-scout}@db:5432/scout
+    volumes:
+      - ./config:/app/config:ro
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

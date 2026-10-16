@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>插件设置 · 独立站线索采集</title>
+<style>
+body{max-width:560px;margin:40px auto;font:14px/1.6 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:#111827;padding:0 16px}
+h2{margin-bottom:4px}.muted{color:#6b7280;font-size:12.5px;font-weight:400}
+label.f{display:block;margin-top:16px;font-weight:600}
+input[type=text],input[type=password]{width:100%;height:36px;padding:0 10px;border:1px solid #d1d5db;border-radius:7px;font:inherit;box-sizing:border-box;margin-top:4px}
+.chk{display:flex;gap:8px;align-items:center;margin-top:10px}
+button{margin-top:20px;height:36px;padding:0 18px;border:0;border-radius:7px;background:#2a78d6;color:#fff;cursor:pointer;font:inherit}
+#msg{margin-top:12px}
+.ok{color:#0f8a3c}.err{color:#c53030}
+</style>
+</head>
+<body>
+<h2>独立站线索采集 · 设置</h2>
+<div class="muted">推荐在线索工作台的“浏览器插件”页面下载插件包，会自动带上以下配置。</div>
+<label class="f">服务器地址 <span class="muted">例如 https://leads.example.com</span><input type="text" id="server"></label>
+<label class="f">个人令牌 <span class="muted">在工作台“浏览器插件”页面生成，以 sk_ 开头</span><input type="password" id="token"></label>
+<div class="chk"><input type="checkbox" id="autoReport"><label for="autoReport">浏览到独立站时自动加入采集队列</label></div>
+<div class="chk"><input type="checkbox" id="autoExtract"><label for="autoExtract">在搜索结果、广告库页面自动提取站点</label></div>
+<div class="chk"><input type="checkbox" id="annotate"><label for="annotate">在链接旁显示线索评级</label></div>
+<button id="save">保存并测试连接</button>
+<p id="msg"></p>
+<script src="config.js"></script>
+<script src="options.js"></script>
+</body>
+</html>

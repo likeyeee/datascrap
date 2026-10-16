@@ -1,0 +1,70 @@
+# 华人/中国卖家识别规则。weight 为该信号命中时加的分数（关联分上限 100）。
+# 修改后无需改代码，重启 worker 即可生效。
+
+weights:
+  cn_platform: 35          # 国产建站 SaaS
+  cn_dns: 30               # DNS 托管在国内服务商
+  cn_registrar: 20         # 国内域名注册商
+  registrant_cn: 35        # RDAP 注册人国家为 CN/HK/TW
+  cn_chars: 25             # 源码中出现较多中文字符
+  cn_contact: 30           # +86/+852 电话、国内邮箱、微信/QQ
+  cn_company: 35           # 条款中出现中国公司主体/地址
+  cn_apps: 10              # 每个国内生态应用/物流/支付（最多计 2 个）
+  ships_from_china: 20     # 明确写从中国发货或长时效
+  surname: 20              # 创始人/联系人为华人姓氏（强匹配）
+  surname_weak: 8          # 歧义姓氏（Lee、Young 等）
+  us_cn_hub: 15            # 美国地址位于华人聚居地/仓储带
+
+# 国产/华人常用建站平台（平台识别结果的名字）
+cn_platforms: [shoplazza, shopline, shopyy, ueeshop, xshoppy, funpinpin, oemsaas, allvalue, shopbase]
+
+cn_dns_keywords: [alidns.com, hichina.com, dnspod.net, dnspod.com, dnsv1.com, dnsv2.com, dnsv3.com, dnsv4.com, dnsv5.com, huaweicloud-dns, cloudxns, dns.com, xinnet.com, ename.net, 22.cn]
+
+cn_registrar_keywords: [alibaba, hichina, aliyun, xin net, xinnet, west263, chengdu west, "west.cn", ename, "22.cn", bizcn, todaynic, "35 technology", juming, gname, dnspod, tencent, "net china"]
+
+cn_email_domains: [qq.com, 163.com, 126.com, foxmail.com, sina.com, sina.cn, aliyun.com, yeah.net, 139.com, sohu.com, 188.com, tom.com]
+
+# 国内生态的应用、物流、支付（页面源码中的关键词，小写匹配）
+cn_apps:
+  dsers: dsers
+  cjdropshipping: cjdropshipping
+  17track: 17track
+  parcelpanel: parcelpanel
+  trackingmore: trackingmore
+  yunexpress: yunexpress
+  4px: 4px.com
+  yanwen: yanwen
+  cainiao: cainiao
+  asiabill: asiabill
+  oceanpayment: oceanpayment
+  pingpong: pingpongx
+  useepay: useepay
+  lianlian: lianlianpay
+  mabang: mabangerp
+  dianxiaomi: dianxiaomi
+  shulex: shulex
+
+# 中国大陆/香港地名（出现在地址或公司主体中）
+china_places: [shenzhen, guangzhou, dongguan, foshan, zhongshan, huizhou, yiwu, jinhua, hangzhou, ningbo, wenzhou, taizhou, xiamen, fuzhou, quanzhou, putian, shantou, jieyang, suzhou, nanjing, shanghai, beijing, tianjin, qingdao, chengdu, wuhan, changsha, zhengzhou, hefei, guangdong, zhejiang, fujian, jiangsu, "hong kong", kowloon, "wan chai", "tsim sha tsui", "p.r.c", "p.r. china", "people's republic of china"]
+
+company_patterns:
+  - "co\\.,?\\s*ltd"
+  - "co\\.?\\s*limited"
+  - "technology\\s+co"
+  - "trading\\s+co"
+  - "e-?commerce\\s+co"
+  - "network\\s+technology"
+
+ships_from_china_patterns:
+  - "ship(?:s|ped)? from (?:our )?(?:warehouse in )?china"
+  - "dispatched from china"
+  - "(?:overseas|international) warehouse"
+  - "\\b(?:7|8|10|12)\\s*[-~to]+\\s*(?:15|18|20|25|30)\\s*(?:business |working )?days"
+
+# 美国华人聚居地 / 华人仓储带（城市名，小写）
+us_cn_hubs: [city of industry, walnut, diamond bar, rowland heights, hacienda heights, la puente, el monte, south el monte, arcadia, san gabriel, alhambra, monterey park, rosemead, temple city, pomona, chino, chino hills, ontario, rancho cucamonga, fontana, eastvale, jurupa valley, mira loma, irvine, fremont, milpitas, cupertino, san jose, hayward, union city, newark, flushing, bayside, sunset park, edison, piscataway, jersey city, secaucus, carteret, cranbury, sugar land, plano, duluth, bellevue, redmond]
+
+# 华人姓氏（拼音 / 粤语 / 台湾 / 闽南拼写）。ambiguous 中的姓氏在英语中也很常见，只给弱分。
+surnames:
+  strong: [wang, zhang, liu, chen, yang, huang, zhao, wu, zhou, xu, sun, zhu, hu, guo, he, lin, luo, gao, zheng, liang, xie, tang, han, cao, deng, feng, zeng, peng, xiao, cai, pan, tian, dong, yuan, jiang, ye, du, su, wei, cheng, lv, lu, ding, shen, ren, yao, jin, fu, zhong, cui, tan, liao, fan, wan, qiu, qin, jia, xue, yan, gu, hou, shao, meng, long, duan, lei, qian, tang, yin, hao, kong, xiong, mao, chang, zou, shi, bai, fang, kang, chan, wong, leung, cheung, lau, ng, ho, yip, lam, tsang, kwok, chow, chiu, chau, fung, hui, tse, wan, yeung, mak, tsai, hsu, hsieh, chiang, kuo, liao, tseng, chuang, huang, chung, tsao, cheng, hsiao, teo, tan, goh, lim, ong, koh, quek, tay]
+  ambiguous: [lee, li, young, king, ma, mo, so, to, yu, ko, ku, kwan, gee, toy, hong, song, park]
